@@ -1,0 +1,4 @@
+config/*.config
+!config/.gitkeep
+!config/.nobackup
+!config/example.config
