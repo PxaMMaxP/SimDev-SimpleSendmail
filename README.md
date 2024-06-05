@@ -32,6 +32,6 @@ FROM_EMAIL: Sender's email address.
 Create and configure your SMTP settings in the configuration file.
 Run the script with required options: -a for the account configuration file, -s to send an email, along with --to, --subject, --message, and optionally --attachment.
 
-#Contributing
+# Contributing
 
 Contributions, bug reports, and feature requests are welcome!
