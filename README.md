@@ -1,3 +1,5 @@
+![Time](https://waka.mpassarello.de/api/badge/MaxP/interval:any/project:SimDev-SimpleSendmail?label=Project%20time)
+
 # SimpleSendMail
 
 SimpleSendMail is a lightweight, command-line bash script for sending emails efficiently. Tailored for users who need a straightforward email solution, it encapsulates the complexity of email configurations into a single, user-friendly script.
