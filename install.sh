@@ -19,6 +19,21 @@ show_help() {
     exit 0
 }
 
+# Check if the script is run as root
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run as root."
+    exit 1
+fi
+
+# Check dependency (mailsend-go)
+check_dependency() {
+    if ! command -v mailsend-go &> /dev/null; then
+        echo "Error: mailsend-go is not installed."
+        echo "Please install mailsend-go!"
+        exit 1
+    fi
+}
+
 # Uninstall function
 uninstall() {
     echo "Uninstalling scripts..."
@@ -68,9 +83,9 @@ check_and_copy_files() {
 while [ "$#" -gt 0 ]; do
     case "$1" in
         -h|--help) show_help ;;
-        --config-dir) CONFIG_DIR="$2"; shift ;;
-        --bin-dir) BIN_DIR="$2"; shift ;;
-        --install-dir) INSTALL_DIR="$2"; shift ;;
+        --config-dir) CONFIG_DIR="$2"; shift 2 ;;
+        --bin-dir) BIN_DIR="$2"; shift 2 ;;
+        --install-dir) INSTALL_DIR="$2"; shift 2 ;;
         --uninstall) uninstall; exit 0 ;;
         *) echo "Unknown option: $1"; show_help ;;
     esac
@@ -90,21 +105,25 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
+# Check dependency
+echo "Checking dependencies..."
+check_dependency
+
 # Perform installation
 echo "Starting installation..."
 
 # Create necessary directories
-mkdir -p "${CONFIG_DIR}"
-mkdir -p "${INSTALL_DIR}"
+mkdir -p "${CONFIG_DIR}" || { echo "Failed to create config directory."; exit 1; }
+mkdir -p "${INSTALL_DIR}" || { echo "Failed to create install directory."; exit 1; }
 
 # Copy scripts
 check_and_copy_files
 
 # Copy sample configuration and secret files
-cp "${SCRIPT_DIR}/config/example.config" "${CONFIG_DIR}/"
+cp "${SCRIPT_DIR}/config/example.config" "${CONFIG_DIR}/" || { echo "Failed to copy config files."; exit 1; }
 
 # Set permissions
-chmod 600 "${CONFIG_DIR}"/*
-chmod +x "${INSTALL_DIR}/ssendmail.sh"
+chmod 600 "${CONFIG_DIR}"/* || { echo "Failed to set permissions on config files."; exit 1; }
+chmod +x "${INSTALL_DIR}/ssendmail.sh" || { echo "Failed to set execute permission on ssendmail.sh."; exit 1; }
 
 echo "Installation completed."
