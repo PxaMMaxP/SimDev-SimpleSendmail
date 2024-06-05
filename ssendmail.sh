@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# Version
+VERSION="1.0.0"
+
 # Help function
 show_help() {
     echo "SimpleSendMail - A simple script for sending emails"
+    echo "Version: $VERSION"
     echo " "
     echo "Options:"
     echo "-h, --help        Show this help message."
