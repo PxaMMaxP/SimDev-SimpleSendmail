@@ -8,7 +8,7 @@ SimpleSendMail is a lightweight, command-line bash script for sending emails eff
 - Simple configuration via an external file.
 - SSL support for secure email transmission.
 
-##Dependency
+## Dependency
 
 This script relies on mailsend-go, a versatile command-line tool for sending emails via SMTP. Ensure mailsend-go is installed and properly configured on your system.
 
